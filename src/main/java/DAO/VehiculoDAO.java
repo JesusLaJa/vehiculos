@@ -73,8 +73,7 @@ public class VehiculoDAO extends Conexion {
             vehiculo.setModelo(rs.getString("MODELO"));
             vehiculo.setConcesionario(rs.getString("NOMBRE"));
             vehiculo.setColor(rs.getString("COLOR"));
-            vehiculo.setSerie(rs.getString("SERIE"));
-            vehiculo.setEstado(rs.getString("ESTADO"));
+            vehiculo.setSerie(rs.getString("SERIE"));;
 
             //se añaden los registros a la lista
             lstVehiculos.add(vehiculo);

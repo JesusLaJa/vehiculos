@@ -28,17 +28,16 @@ public class TestMain {
 
         /**
          * ******************************
-         * CONCESIONARIO
-        *******************************
+         * CONCESIONARIO ******************************
          */
         //creo un nuevo objeto de tipo Concesionario
         Concesionario conce = new Concesionario();
         //creo un nuevo objeto de tipo ConcesionarioDAO
         ConcesionarioDAO conceDAO = new ConcesionarioDAO();
-//
-//        /**
-//         * AISGNO LA LISTA OBTENIDA*
-//         */
+
+        /**
+         * AISGNO LA LISTA OBTENIDA*
+         */
 //        List<Concesionario> listConce = conceDAO.listar();
 //
 //        listConce.forEach(c -> {
@@ -107,27 +106,28 @@ public class TestMain {
         /**
          * ***********************
          */
-
         /**
          * SABER SI HAY EL ID YA EXISTE*
          */
-        List<Marca> lstMarca = conceDAO.listarMarcasExistentes(1, 4);
+        int nMarca = conceDAO.getExisteMarcaConce(2, 1);
 
-        lstMarca.forEach(m -> {
-            System.out.print(m.getIdMarca());
-            System.out.print(" " + m.getNombre());
-
-        });
+        System.out.println("Número de veces que se encontró: " + nMarca);
+        
+        if(nMarca < 1) {
+            System.out.println("No existe la relación.");
+            System.out.println("inserto el registro de marca con concesionario");
+        }else {
+            System.out.println("Relación Existente");
+        }
         /**
          * *****************************
          */
 
         /**
          * ******************************
-         * MARCA
-        *******************************
+         * MARCA ******************************
          */
-//        //creo un nuevo objeto de tipo Marca
+        //creo un nuevo objeto de tipo Marca
 //        Marca marca = new Marca();
 //        //creo un nuevo objeto de tipo MarcaDAO
 //        MarcaDAO marcaDAO = new MarcaDAO();
@@ -338,7 +338,6 @@ public class TestMain {
         /**
          * ******************
          */
-
     }
 
 }

@@ -140,10 +140,18 @@ public class ConcesionarioDAO extends Conexion {
         myCall.execute();
     }
 
-    public List<Marca> listarMarcasExistentes(int pIdConcesionario, int pIdMarca) throws SQLException {
+    /**
+     * Regresa el numero de veces que una Marca está relacionada a un Concesionario
+     * @param pIdConcesionario
+     * @param pIdMarca
+     * @return
+     * @throws SQLException 
+     */
+    public int getExisteMarcaConce(int pIdConcesionario, int pIdMarca) throws SQLException {
+
         this.con = this.conectar();
 
-        List<Marca> listarMarcasExistentes = new ArrayList<>();
+        int nMarca = 0;
 
         CallableStatement myCall = con.prepareCall("call USP_EXISTE_MARCA_CONCESIONARIO(?,?)");
         myCall.setInt("PIDCONCESIONARIO", pIdConcesionario);
@@ -152,16 +160,11 @@ public class ConcesionarioDAO extends Conexion {
 
         ResultSet rs = myCall.getResultSet();
 
-        while (rs.next()) {
-            Marca marca = new Marca();
-
-            marca.setIdConcesionario(rs.getInt("IDCONCESIONARIO"));
-            marca.setIdMarca(rs.getInt("IDMARCA"));
-
-            listarMarcasExistentes.add(marca);
+        if (rs.next()) {
+            nMarca = rs.getInt("NMARCA");
         }
-        
-        return listarMarcasExistentes;
+
+        return nMarca;
 
     }
 
@@ -294,7 +297,6 @@ public class ConcesionarioDAO extends Conexion {
             vehiculo.setModelo(rs.getString("MODELO"));
             vehiculo.setColor(rs.getString("COLOR"));
             vehiculo.setSerie(rs.getString("SERIE"));
-            vehiculo.setEstado(rs.getString("ESTADO"));
 
             listarVehiculos.add(vehiculo);
         }
