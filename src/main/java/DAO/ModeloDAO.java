@@ -20,7 +20,7 @@ import java.util.Vector;
  * @author pc
  */
 public class ModeloDAO extends Conexion {
-    
+
     PreparedStatement st;
 
     /**
@@ -107,9 +107,30 @@ public class ModeloDAO extends Conexion {
         myCall.setInt("PPRECIO", modelo.getPrecio());
         //Se ejecuta la llamada 
         myCall.executeUpdate();
-        
+
     }
-    
+
+    public int getExisteModeloMarca(int pIdMarca, String pModelo,int pAnio) throws SQLException {
+
+        this.con = this.conectar();
+
+        int nModelo = 0;
+
+        CallableStatement myCall = con.prepareCall("call USP_EXISTE_MODELO(?,?,?)");
+        myCall.setInt("PIDMARCA", pIdMarca);
+        myCall.setString("PMODELO", pModelo);
+        myCall.setInt("PANIO", pAnio);
+        myCall.execute();
+
+        ResultSet rs = myCall.getResultSet();
+
+        if (rs.next()) {
+            nModelo = rs.getInt("NMODELO");
+        }
+
+        return nModelo;
+    }
+
     public void eliminar(int pIdModelo) throws Exception {
 
         //Se obtiene la coneciion de la clase Conexion
@@ -121,19 +142,19 @@ public class ModeloDAO extends Conexion {
         //se ejecuta la llamada
         myCall.execute();
     }
-    
+
     public Vector<Modelo> mostrarModelos() throws SQLException {
-        
+
         PreparedStatement ps = null;
         ResultSet rs = null;
         Conexion cn = new Conexion();
         Connection con = cn.conectar();
-        
+
         Vector<Modelo> datos = new Vector<Modelo>();
         Modelo modelo = null;
-        
+
         String sql = "call USP_SELECCIONAR_MODELOS";
-        
+
         try {
             ps = con.prepareStatement(sql);
             rs = ps.executeQuery();
@@ -144,11 +165,11 @@ public class ModeloDAO extends Conexion {
                 datos.add(modelo);
             }
             rs.close();
-            
+
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
         }
         return datos;
     }
-    
+
 }

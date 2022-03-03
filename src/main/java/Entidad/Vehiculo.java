@@ -19,7 +19,8 @@ public class Vehiculo {
     private String estado;
     private String modelo;
     private String concesionario;
-
+    private String marca;
+    
     public int getId() {
         return id;
     }
@@ -82,6 +83,14 @@ public class Vehiculo {
 
     public void setConcesionario(String concesionario) {
         this.concesionario = concesionario;
+    }
+    
+        public String getMarca() {
+        return marca;
+    }
+
+    public void setMarca(String marca) {
+        this.marca = marca;
     }
 
 }

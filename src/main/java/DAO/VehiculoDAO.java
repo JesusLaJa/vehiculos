@@ -9,6 +9,7 @@ import Entidad.Vehiculo;
 import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +25,7 @@ public class VehiculoDAO extends Conexion {
      * Agrega registros a la tabla Vehiculo
      *
      * @param vehiculo
-     * @return 
+     * @return
      * @throws Exception
      */
     public int registrar(Vehiculo vehiculo) throws Exception {
@@ -49,11 +50,11 @@ public class VehiculoDAO extends Conexion {
     /**
      * Obtiene una lista de vehiculos
      *
-     * @return 
+     * @return
      * @throws Exception
      */
     public List<Vehiculo> listar() throws Exception {
-        
+
         //Se obtiene le coneccion de la clase Conexion
         this.con = this.conectar();
 
@@ -106,7 +107,7 @@ public class VehiculoDAO extends Conexion {
 
     /**
      *
-     * @param pId 
+     * @param pId
      * @throws Exception
      */
     public void eliminar(int pId) throws Exception {
@@ -116,8 +117,44 @@ public class VehiculoDAO extends Conexion {
         //se prepara la llamada al SP
         CallableStatement myCall = con.prepareCall("call USP_ELIMINAR_VEHICULOS(?)");
         //se asigna valor a los parametros
-        myCall.setInt("PIDVEHICULO", pId);        //se ejecuta la llamada al SP
+        myCall.setInt("PIDVEHICULO", pId);        
+        //se ejecuta la llamada al SP
         myCall.execute();
+    }
+
+    /**
+     * Obtiene un numero de cuantas veces existe IDMODELO en un concesionario
+     * @param pIdModelo
+     * @param pIdConce
+     * @return
+     * @throws SQLException 
+     */
+    public int getExisteModeloConce(int pIdModelo, int pIdConce, String pSerie) throws SQLException {
+
+        //se obtiene la coneccion
+        this.con = conectar();
+
+        //se inicializa una variable int0
+        int nModelo = 0;
+
+        //se prepara la llamada al SP
+        CallableStatement myCall = con.prepareCall("call USP_EXISTE_MODELO_VEHICULO(?,?,?)");
+        //se asigna un valor a los parametros
+        myCall.setInt("PIDMODELO", pIdModelo);
+        myCall.setInt("PIDCONCESIONARIO", pIdConce);
+        myCall.setString("PSERIE", pSerie);
+        //se ejecuta la llamada
+        myCall.execute();
+
+        //se le asignaun valor a ResultSet
+        ResultSet rs = myCall.getResultSet();
+
+        //se recorre la tabla
+        if (rs.next()) {
+            //se obtiene la columna de donde obtiene el número de veces que se repite el ID
+            nModelo = rs.getInt("NMODELO");
+        }
+        return nModelo;
     }
 
 }

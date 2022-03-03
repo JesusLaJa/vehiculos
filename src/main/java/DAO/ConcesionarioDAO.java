@@ -141,11 +141,13 @@ public class ConcesionarioDAO extends Conexion {
     }
 
     /**
-     * Regresa el numero de veces que una Marca está relacionada a un Concesionario
+     * Regresa el numero de veces que una Marca está relacionada a un
+     * Concesionario
+     *
      * @param pIdConcesionario
      * @param pIdMarca
      * @return
-     * @throws SQLException 
+     * @throws SQLException
      */
     public int getExisteMarcaConce(int pIdConcesionario, int pIdMarca) throws SQLException {
 
@@ -278,6 +280,7 @@ public class ConcesionarioDAO extends Conexion {
     }
 
     public List<Vehiculo> listarVehiculosConce(int pIdConcesionario) throws SQLException {
+
         this.con = this.conectar();
 
         List<Vehiculo> listarVehiculos = new ArrayList<>();

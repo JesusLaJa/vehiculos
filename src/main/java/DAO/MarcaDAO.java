@@ -101,6 +101,27 @@ public class MarcaDAO extends Conexion {
 
     }
 
+    @SuppressWarnings("empty-statement")
+    public int getExisteMarca(String pNombre) throws SQLException {
+
+        this.con = this.conectar();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        ps = con.prepareCall("call USP_EXISTE_MARCA(?)");
+        //se agrega el valor que se va a seleccionar
+        ps.setString(1, pNombre);
+        //se le asigna un valor a ResultSet
+        rs = ps.executeQuery();
+
+        if (rs.next()) {
+
+            //se retorna el numero de veces que existe
+            return rs.getInt(1);
+        }
+        return 1;
+    }
+
     public List<Modelo> listarModelos(int pIdMarca) throws Exception {
 
         //Se obtiene la coneccion de la clase Conexion 
